@@ -9,6 +9,7 @@ namespace Application.Repositories
 {
     public interface IUserRepository
     {
+        Task VerificaExistente(string email);
         Task Cadastrar(User user);
     }
 }
