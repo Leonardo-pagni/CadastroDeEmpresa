@@ -1,9 +1,11 @@
 using Application.UseCases.Empresa.Command;
 using Application.UseCases.Empresa.Handler.Cadastrar;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Empresa
 {
+    [Authorize]
     [ApiController]
     [Route("api/Empresa/CadastroDeEmpresa")]
     public class CadastroEmpresaController : ControllerBase

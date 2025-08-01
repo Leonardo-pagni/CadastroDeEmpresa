@@ -1,5 +1,5 @@
 ﻿using Application.Repositories;
-using Domain.Models.Empresa;
+using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
@@ -19,12 +19,13 @@ namespace Infrastructure.Repositories
             await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task<List<Empresa>> PesquisarPaginada(int page, int pageSize)
+        public async Task<List<Empresa>> PesquisarPaginadaPorUsuario(int page, int pageSize, int UsuarioId)
         {
             return await _appDbContext.Empresa
             .AsNoTracking()
             .Include(e => e.Endereco)
             .Include(e => e.AtividadePrincipal)
+            .Where(e => e.User.Id == UsuarioId)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

@@ -1,5 +1,4 @@
-﻿using Domain.Models.Empresa;
-using Domain.Models.User;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure

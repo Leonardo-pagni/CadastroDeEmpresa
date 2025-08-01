@@ -2,7 +2,6 @@
 using Application.Services;
 using Application.UseCases.Empresa.Command;
 using Domain.Models;
-using Domain.Models.Empresa;
 using Shared.Reponses;
 using System.Globalization;
 
@@ -12,10 +11,12 @@ public sealed class CadastrarEmpresaHandler : ICadastrarEmpresaHandler
 {
     private readonly IEmpresaRepository _empresaRepository;
     private readonly ICnpjService _cnpjService;
-    public CadastrarEmpresaHandler(IEmpresaRepository empresaRepository, ICnpjService cnpjService)
+    private readonly IUserRepository _userRepository;
+    public CadastrarEmpresaHandler(IEmpresaRepository empresaRepository, ICnpjService cnpjService, IUserRepository userRepository)
     {
         _empresaRepository = empresaRepository;
         _cnpjService = cnpjService;
+        _userRepository = userRepository;
     }
 
     public async Task<Response<EmpresaDto?>> Handler(CadastrarEmpresaCommand command)
@@ -28,17 +29,19 @@ public sealed class CadastrarEmpresaHandler : ICadastrarEmpresaHandler
             .Select(a => new AtividadePrincipal(a.Codigo, a.Descricao))
             .ToList();
 
-            var empresaEntity = new Domain.Models.Empresa.Empresa(empresaDto.NomeEmpresarial, empresaDto.NomeFantasia, empresaDto.CNPJ.Replace(".", "").Replace("/", ""), empresaDto.Situacao, DateTime.ParseExact(empresaDto.Abertura, "dd/MM/yyyy", CultureInfo.InvariantCulture), empresaDto.Tipo, empresaDto.NaturezaJuridica, atividadesPrincipais,
-                new Domain.Models.Empresa.Endereco
+            var userEntity = await _userRepository.GetUserByEmail();
+
+            var empresaEntity = new Domain.Models.Empresa(empresaDto.NomeEmpresarial, empresaDto.NomeFantasia, empresaDto.CNPJ.Replace(".", "").Replace("/", "").Replace("-",""), empresaDto.Situacao, DateTime.ParseExact(empresaDto.Abertura, "dd/MM/yyyy", CultureInfo.InvariantCulture), empresaDto.Tipo, empresaDto.NaturezaJuridica, atividadesPrincipais,
+                new Domain.Models.Endereco
                 {
-                    logradouro = empresaDto.Logradouro,
-                    numero = empresaDto.Numero,
-                    complemento = empresaDto.Complemento,
-                    bairro = empresaDto.Bairro,
-                    municipio = empresaDto.Municipio,
+                    Logradouro = empresaDto.Logradouro,
+                    Numero = empresaDto.Numero,
+                    Complemento = empresaDto.Complemento,
+                    Bairro = empresaDto.Bairro,
+                    Municipio = empresaDto.Municipio,
                     UF = empresaDto.UF,
-                    cep = empresaDto.CEP
-                });
+                    CEP = empresaDto.CEP
+                }, userEntity);
 
             await _empresaRepository.Cadastrar(empresaEntity);
 

@@ -1,10 +1,9 @@
 ﻿using Application.Repositories;
 using Application.UseCases.User.Command;
-using Domain.Models.User;
 using Shared.Dtos.User;
 using Shared.Reponses;
 
-namespace Application.UseCases.User.Handler.Cadastrar
+namespace Application.UseCases.User.Handler
 {
     public class CadastrarUserHandler : ICadastrarUserHandler
     {
@@ -21,19 +20,19 @@ namespace Application.UseCases.User.Handler.Cadastrar
             {
                 var userDto = new UserDto(command.Email, command.Password, command.Nome);
 
-                var UserEntity = new Domain.Models.User.User(userDto.email, userDto.password, userDto.nome);
+                var UserEntity = new Domain.Models.User(userDto.email, userDto.password, userDto.nome);
 
-                await _userRepository.VerificaExistente(UserEntity.email);
+                await _userRepository.VerificaExistente(UserEntity.Email);
 
                 await _userRepository.Cadastrar(UserEntity);
 
                 return new Response<UserDto?>(data: userDto, code: System.Net.HttpStatusCode.Created, "Usuário cadastrado com sucesso!");
             }
-            catch(ArgumentException ex)
+            catch (ArgumentException ex)
             {
                 return new Response<UserDto?>(data: null, code: System.Net.HttpStatusCode.BadRequest, ex.Message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new Response<UserDto?>(data: null, code: System.Net.HttpStatusCode.InternalServerError, "Não foi possível cadastrar o usuário!");
             }

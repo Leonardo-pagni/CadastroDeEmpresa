@@ -1,4 +1,4 @@
-﻿using Domain.Models.User;
+﻿using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +11,7 @@ namespace Application.Repositories
     {
         Task VerificaExistente(string email);
         Task Cadastrar(User user);
+        Task VerificarLogin(User user);
+        Task<User> GetUserByEmail();
     }
 }

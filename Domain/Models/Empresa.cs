@@ -1,9 +1,9 @@
-﻿namespace Domain.Models.Empresa
+﻿namespace Domain.Models
 {
     public class Empresa
     {
         private Empresa() { }
-        public Empresa(string nomeEmpresarial, string nomeFantasia, string cnpj, string situacao, DateTime abertura, string tipo, string naturezaJuridica, List<AtividadePrincipal> atividadePrincipal, Endereco endereco)
+        public Empresa(string nomeEmpresarial, string nomeFantasia, string cnpj, string situacao, DateTime abertura, string tipo, string naturezaJuridica, List<AtividadePrincipal> atividadePrincipal, Endereco endereco, User user)
         {
             if (cnpj.Length != 14)
             {
@@ -19,10 +19,11 @@
             NaturezaJuridica = naturezaJuridica;
             AtividadePrincipal = atividadePrincipal;
             Endereco = endereco;
+            User = user;
         }
 
 
-        public int id { get; set; }
+        public int Id { get; set; }
         public string NomeEmpresarial { get; set; }
         public string NomeFantasia { get; set; }
         public string CNPJ { get; set; }
@@ -32,6 +33,7 @@
         public string NaturezaJuridica { get; set; }
         public List<AtividadePrincipal> AtividadePrincipal { get; set; }
         public Endereco Endereco { get; set; }
+        public User User { get; set; }
 
     }
 }

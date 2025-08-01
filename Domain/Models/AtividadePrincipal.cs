@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.Empresa
+namespace Domain.Models
 {
     public class AtividadePrincipal
     {
@@ -13,7 +13,7 @@ namespace Domain.Models.Empresa
             Codigo = codigo;
             Texto = texto;
         }
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Codigo { get; set; }
         public string Texto { get; set; }
     }

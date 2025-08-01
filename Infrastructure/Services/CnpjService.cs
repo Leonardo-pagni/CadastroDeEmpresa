@@ -1,7 +1,7 @@
 ﻿using Application.Services;
 using Newtonsoft.Json;
 
-namespace Infrastructure
+namespace Infrastructure.Services
 {
     public class CnpjService : ICnpjService
     {

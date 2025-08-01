@@ -1,5 +1,5 @@
 ﻿using Application.UseCases.User.Command;
-using Application.UseCases.User.Handler.Cadastrar;
+using Application.UseCases.User.Handler;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Dtos.User;
